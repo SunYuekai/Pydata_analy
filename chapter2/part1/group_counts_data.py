@@ -20,10 +20,11 @@ operating_system = np.where(cframe['a'].str.contains('Windows'),'Windows','No wi
 print(operating_system[:5])
 by_tz_os = cframe.groupby(['tz', Series(operating_system)])  # [分组字段,分组字段对应拆分类别值数组或序列]
 agg_count= by_tz_os.size().unstack().fillna(0)  #DF对象
+print(agg_count[:10])
 # 获取间接索引数组 用于按照升序排列 按照sum(1)排名进行索引重排序
 indexer = agg_count.sum(1).argsort()
 count_subset = agg_count.take(indexer)[-10:]
-print(count_subset)
+print(type(count_subset))
 # count_subset.plot(kind='barh', stacked=True)
 normed_subset = count_subset.div(count_subset.sum(1), axis=0)  # 以百分比显示 axis维度选择
 normed_subset.plot(kind='barh', stacked=True)
